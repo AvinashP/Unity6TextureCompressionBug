@@ -14,6 +14,14 @@
 - Check `Builds` folder outside Assets.
 
 ## How to verify default texture format is set to PVRTC
+
+### Verifying Textures
+- Install Memory profiler.
+- Install above build on Android and run
+- Take Memory snashot of phone.
+- Check Texture format of Unity-Logo (It will be set to PVRTC)
+
+### Verifying generated AndroidManifest.xml
 - Open ./ApkTool folder in terminal (Its outside Assets in this repository)
 - Run below command (Make sure you have java command setup in PATH)
 - ` .\apktool.bat d PathInYourMachine\TextureFormatText\Builds\TextureCompressionTest.apk`

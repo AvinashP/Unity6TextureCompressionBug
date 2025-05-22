@@ -11,15 +11,19 @@ namespace Editor.Scripts
         public static void Create()
         {
             var selectedTarget = EditorUserBuildSettings.activeBuildTarget;
-
+            var subTarget = (int)StandaloneBuildSubtarget.Player;
+            
+            if(selectedTarget == BuildTarget.Android)
+                subTarget = (int)MobileTextureSubtarget.ASTC;
+            
             var buildPlayerOptions = new BuildPlayerOptions()
             {
                 targetGroup = BuildPipeline.GetBuildTargetGroup(selectedTarget),
                 scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray(),
                 target = selectedTarget,
                 locationPathName = "./Builds/TextureCompressionTest.apk",
-                options = BuildOptions.CompressWithLz4,
-                subtarget = (int) StandaloneBuildSubtarget.Player
+                options = BuildOptions.CompressWithLz4 | BuildOptions.Development,
+                subtarget = subTarget
             };
             
             if (!BuildPipeline.IsBuildTargetSupported(buildPlayerOptions.targetGroup, buildPlayerOptions.target))
@@ -31,7 +35,7 @@ namespace Editor.Scripts
             }
 
             // Attempt to override texture compression format to ASTC
-            UpdateBuildProfile();
+            //UpdateBuildProfile();
            
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
